@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑</title>
+</head>
+<!-- Include Quill's CSS and JS files -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<style>
+  #editor {
+    height: 500px;
+    width: 80%;
+  }
+</style>
+<!-- Send the editor's content to the server -->
+{#<script>#}
+{#  $('#save-button').click(function() {#}
+{#    var content = quill.root.innerHTML;#}
+{#    $.post('/save', {content: content});#}
+{#  });#}
+{#</script>#}
+<body>
+    <h1>编辑</h1>
+
+    <form method="POST" action="/">
+      <div id="editor">{{ content | safe }}</div>
+      <!-- Create a hidden input to store the Quill content as a form field -->
+      <input type="hidden" name="content" id="hiddenContent">
+      <button type="submit">Save 保存</button>
+    </form>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+        var container = document.querySelector('#editor');
+        var quill = new Quill(container, {
+        theme: 'snow',
+        modules: {
+                keyboard: {
+                    bindings: {
+                        customRightClick: {
+                            key: 'M',
+                            shiftKey: true,
+                            handler: function(range, context) {
+                                // 在这里触发自定义右键菜单的操作
+                                alert('Custom right-click action');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        // 屏蔽浏览器默认的右键菜单
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            console.log("contextmenu event listener!")
+        });
+
+
+        var form = document.querySelector('form');
+        form.onsubmit = function() {
+            // Populate hidden form on submit
+            var contentInput = document.querySelector('input[name=content]');
+            contentInput.value = quill.root.innerHTML;
+        };
+
+    </script>
+</body>
+</html>

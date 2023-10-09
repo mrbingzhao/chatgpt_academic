@@ -15,33 +15,33 @@ def get_crazy_functionals():
     from crazy_functions.代码重写为全英文_多线程 import 全项目切换英文
 
     function_plugins = {
-        "请解析并解构此项目本身": {
-            "Function": 解析项目本身
-        },
-        "解析整个py项目": {
-            "Color": "stop",    # 按钮颜色
-            "Function": 解析一个Python项目
-        },
-        "解析整个C++项目头文件": {
-            "Color": "stop",    # 按钮颜色
-            "Function": 解析一个C项目的头文件
-        },
-        "解析整个C++项目": {
-            "Color": "stop",    # 按钮颜色
-            "Function": 解析一个C项目
-        },
-        "读tex论文写摘要": {
-            "Color": "stop",    # 按钮颜色
-            "Function": 读文章写摘要
-        },
-        "批量生成函数注释": {
-            "Color": "stop",    # 按钮颜色
-            "Function": 批量生成函数注释
-        },
-        "[多线程demo] 把本项目源代码切换成全英文": {
-            "Function": 全项目切换英文
-        },
-        "[函数插件模板demo] 历史上的今天": {
+        # "请解析并解构此项目本身": {
+        #     "Function": 解析项目本身
+        # },
+        # "解析整个py项目": {
+        #     "Color": "stop",    # 按钮颜色
+        #     "Function": 解析一个Python项目
+        # },
+        # "解析整个C++项目头文件": {
+        #     "Color": "stop",    # 按钮颜色
+        #     "Function": 解析一个C项目的头文件
+        # },
+        # "解析整个C++项目": {
+        #     "Color": "stop",    # 按钮颜色
+        #     "Function": 解析一个C项目
+        # },
+        # "读tex论文写摘要": {
+        #     "Color": "stop",    # 按钮颜色
+        #     "Function": 读文章写摘要
+        # },
+        # "批量生成函数注释": {
+        #     "Color": "stop",    # 按钮颜色
+        #     "Function": 批量生成函数注释
+        # },
+        # "[多线程demo] 把本项目源代码切换成全英文": {
+        #     "Function": 全项目切换英文
+        # },
+        "历史上的今天": {
             "Function": 高阶功能模板函数
         },
     }

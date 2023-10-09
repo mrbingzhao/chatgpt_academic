@@ -13,10 +13,10 @@ def 解析PDF(file_manifest, project_folder, top_p, temperature, chatbot, histor
                 file_content += page.get_text()
             print(file_content)
 
-        prefix = "接下来请你逐文件分析下面的论文文件，概括其内容" if index==0 else ""
+        prefix = "接下来请你逐文件分析下面的文件，概括其内容" if index==0 else ""
         i_say = prefix + f'请对下面的文章片段用中文做一个概述，文件名是{os.path.relpath(fp, project_folder)}，文章内容是 ```{file_content}```'
         i_say_show_user = prefix + f'[{index}/{len(file_manifest)}] 请对下面的文章片段做一个概述: {os.path.abspath(fp)}'
-        chatbot.append((i_say_show_user, "[Local Message] waiting gpt response."))
+        chatbot.append((i_say_show_user, "[Local Message] waiting server response."))
         print('[1] yield chatbot, history')
         yield chatbot, history, '正常'
 
@@ -35,7 +35,7 @@ def 解析PDF(file_manifest, project_folder, top_p, temperature, chatbot, histor
 
     all_file = ', '.join([os.path.relpath(fp, project_folder) for index, fp in enumerate(file_manifest)])
     i_say = f'根据以上你自己的分析，对全文进行概括，用学术性语言写一段中文摘要，然后再写一段英文摘要（包括{all_file}）。'
-    chatbot.append((i_say, "[Local Message] waiting gpt response."))
+    chatbot.append((i_say, "[Local Message] waiting server response."))
     yield chatbot, history, '正常'
 
     if not fast_debug: 

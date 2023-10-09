@@ -13,7 +13,7 @@ PORT = find_free_port() if WEB_PORT <= 0 else WEB_PORT
 AUTHENTICATION = None if AUTHENTICATION == [] else AUTHENTICATION
 
 initial_prompt = "Serve me as a writing and programming assistant."
-title_html = """<h1 align="center">ChatGPT 学术优化</h1>"""
+title_html = """<h1 align="center">AIGC基础版</h1>"""
 
 # 问询记录, python 版本建议3.9+（越新越好）
 import logging
@@ -43,12 +43,12 @@ with gr.Blocks(theme=set_theme, analytics_enabled=False) as demo:
     with gr.Row():
         with gr.Column(scale=2):
             chatbot = gr.Chatbot()
-            chatbot.style(height=1150)
+            chatbot.style(height=600)
             chatbot.style()
             history = gr.State([])
         with gr.Column(scale=1):
             with gr.Row():
-                txt = gr.Textbox(show_label=False, placeholder="Input question here.").style(container=False)
+                txt = gr.Textbox(show_label=False, placeholder="在这里输入您的内容.").style(container=False)
             with gr.Row():
                 submitBtn = gr.Button("提交", variant="primary")
             with gr.Row():
@@ -103,11 +103,11 @@ def auto_opentab_delay():
     import threading, webbrowser, time
     print(f"如果浏览器没有自动打开，请复制并转到以下URL: http://localhost:{PORT}")
     def open(): 
-        time.sleep(2)
+        time.sleep(1)
         webbrowser.open_new_tab(f'http://localhost:{PORT}')
     t = threading.Thread(target=open)
     t.daemon = True; t.start()
 
 auto_opentab_delay()
-demo.title = "ChatGPT 学术优化"
+demo.title = "AIGC 生成"
 demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", share=True, server_port=PORT, auth=AUTHENTICATION)

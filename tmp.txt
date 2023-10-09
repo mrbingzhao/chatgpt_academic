@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# 获取主机名
+HOSTNAME=$(hostname)
+# 日期格式
+DATE=$(date +%F)
+# 目标目录路径
+DEST_DIR="/mnt/disk2/BAK"
+# 目标目录路径包含主机名
+DEST="$DEST_DIR/$HOSTNAME"
+# 日志路径
+LOG="$DEST/"$HOSTNAME"_backup.log"
+# srs备份源文件路径
+SRS_FILES=(
+  "/usr/local/srs/conf/srs.conf*"
+  "/usr/local/srs/objs/*.sh"
+  "/usr/local/srs/objs/ffmpeg"
+)
+# nginx备份源文件路径
+NGINX_FILES=(
+  "/etc/nginx/nginx.conf"
+  "/etc/nginx/conf.d"
+  "/etc/nginx/default.d"
+)
+# 用户备份文件路径
+UU_FILES=(
+  "/home/uuwatch/"
+)
+
+# 备份文件函数
+backup_files() {
+  local SOURCE_FILES=()  # 接收传递的文件路径数组参数
+  eval "SOURCE_FILES=(\"\${$1[@]}\")"  # 通过eval间接引用和展开数组参数
+  local DEST_DIR="$2/$DATE"  # 目标目录路径包含日期子目录
+
+  if [[ ! -d "$DEST_DIR" ]]; then
+    log "源目录: ${SOURCE_FILES[@]}, 创建目标目录: $DEST_DIR"
+    mkdir -p "$DEST_DIR"
+  fi
+
+  # 备份文件
+  for SRC in "${SOURCE_FILES[@]}"; do
+    if [[ -f "$SRC" && !("$SRC" =~ \.(log|out)$) ]]; then
+      log "文件格式::rsync -a $SRC $DEST_DIR/"
+      #rsync -a $SRC $DEST_DIR/ >> "$LOG" 2>&1
+      rsync -a $SRC $DEST_DIR/ >/dev/null  2>&1
+    elif [[ $SRC == *[*?]* ]]; then
+      # 处理通配符匹配的文件
+      shopt -s nullglob  # 避免未匹配到文件时扩展为字面路径
+      for FILE in $SRC; do
+        if [[ -f "$FILE" && !("$FILE" =~ \.(log|out)$) ]]; then
+          log "通配符格式::rsync -av $FILE $DEST_DIR/"
+          #rsync -av $FILE $DEST_DIR/ >> "$LOG" 2>&1
+          rsync -av $FILE $DEST_DIR/ >/dev/null 2>&1
+        fi
+      done
+      shopt -u nullglob  # 恢复默认的文件名扩展行为
+    elif [[ -d "$SRC" ]]; then
+      log "目录格式::rsync -av --exclude='*.log' --exclude='*.out' $SRC $DEST_DIR/"
+      #rsync -av --exclude='*.log' --exclude='*.out' $SRC $DEST_DIR/ >> "$LOG" 2>&1
+      rsync -av --exclude='*.log' --exclude='*.out' $SRC $DEST_DIR/ >/dev/null 2>&1
+    fi
+  done
+  # 等待所有备份任务完成
+  # NOTE::为了获取状态暂不并行执行
+  #wait
+}
+
+# 输出日志函数
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG"
+}
+
+
+# 打印开始备份日志
+log "开始备份..."
+
+# 备份srs文件
+log "备份srs文件:: ${SRS_FILES[@]} $DEST/srs_bak"
+backup_files "SRS_FILES" "$DEST/srs_bak"
+
+# 备份nginx文件
+log "备份nginx文件:: ${SRS_FILES[@]} $DEST/srs_bak"
+backup_files "NGINX_FILES" "$DEST/nginx_bak"
+
+# 备份uu用户文件
+log "备份uu用户文件:: "UU_FILES" $DEST/uuwatch_bak"
+backup_files "UU_FILES" "$DEST/uuwatch_bak"
+
+# 备份成功后删除两周之前的备份文件
+if [[ $? -eq 0 ]]; then
+  # 计算一周前的日期
+  WEEK_AGO=$(date -d "2 week ago" +%F)
+
+  log "删除一周之前的备份文件"
+  find "$DEST/srs_bak" -type d -name "$WEEK_AGO" -exec rm -rf {} +
+  find "$DEST/nginx_bak" -type d -name "$WEEK_AGO" -exec rm -rf {} +
+  find "$DEST/uuwatch_bak" -type d -name "$WEEK_AGO" -exec rm -rf {} +
+fi
+
+# 打印开始备份日志
+log "备份完成。"
+

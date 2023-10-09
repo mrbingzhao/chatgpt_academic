@@ -35,7 +35,7 @@ def predict_no_ui_but_counting_down(i_say, i_say_show_user, chatbot, top_p, temp
     cnt = 0
     while thread_name.is_alive():
         cnt += 1
-        chatbot[-1] = (i_say_show_user, f"[Local Message] {mutable[1]}waiting gpt response {cnt}/{TIMEOUT_SECONDS*2*(MAX_RETRY+1)}"+''.join(['.']*(cnt%4)))
+        chatbot[-1] = (i_say_show_user, f"[Local Message] {mutable[1]}waiting server response {cnt}/{TIMEOUT_SECONDS*2*(MAX_RETRY+1)}"+''.join(['.']*(cnt%4)))
         yield chatbot, history, '正常'
         time.sleep(1)
     # 把gpt的输出从mutable中取出来
@@ -50,10 +50,10 @@ def write_results_to_file(history, file_name=None):
     import os, time
     if file_name is None:
         # file_name = time.strftime("chatGPT分析报告%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
-        file_name = 'chatGPT分析报告' + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
+        file_name = '自动生成分析报告' + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
     os.makedirs('./gpt_log/', exist_ok=True)
     with open(f'./gpt_log/{file_name}', 'w', encoding = 'utf8') as f:
-        f.write('# chatGPT 分析报告\n')
+        f.write('# 自动生成 分析报告\n')
         for i, content in enumerate(history):
             if i%2==0: f.write('## ')
             f.write(content)

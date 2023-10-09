@@ -8,11 +8,11 @@ def 高阶功能模板函数(txt, top_p, temperature, chatbot, history, systemPr
     chatbot.append(("这是什么功能？", "[Local Message] 请注意，您正在调用一个函数模板，该函数面向希望实现更多有趣功能的开发者，它可以作为创建新功能函数的模板。为了做到简单易读，该函数只有25行代码，不会实时反馈文字流或心跳，请耐心等待程序输出完成。另外您若希望分享新的功能模组，请不吝PR！"))
     yield chatbot, history, '正常'  # 由于请求gpt需要一段时间，我们先及时地做一次状态显示
 
-    for i in range(5):
+    for i in range(2):
         currentMonth = (datetime.date.today() + datetime.timedelta(days=i)).month
         currentDay = (datetime.date.today() + datetime.timedelta(days=i)).day
         i_say = f'历史中哪些事件发生在{currentMonth}月{currentDay}日？列举两条并发送相关图片。发送图片时，请使用Markdown，将Unsplash API中的PUT_YOUR_QUERY_HERE替换成描述改事件的三个最重要的单词。'
-        chatbot.append((i_say, "[Local Message] waiting gpt response."))
+        chatbot.append((i_say, "[Local Message] waiting server response."))
         yield chatbot, history, '正常'  # 由于请求gpt需要一段时间，我们先及时地做一次状态显示
 
         # history = [] 每次询问不携带之前的询问历史

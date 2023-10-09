@@ -6,7 +6,7 @@ from toolbox import clear_line_break
 
 def get_functionals():
     return {
-        "英语学术润色": {
+        "英语润色": {
             # 前言
             "Prefix":   r"Below is a paragraph from an academic paper. Polish the writing to meet the academic style, " +
                         r"improve the spelling, grammar, clarity, concision and overall readability. When neccessary, rewrite the whole sentence. " +
@@ -15,12 +15,12 @@ def get_functionals():
             "Suffix":   r"",
             "Color":    r"secondary",    # 按钮颜色
         },
-        "中文学术润色": {
+        "中文润色": {
             "Prefix":   r"作为一名中文学术论文写作改进助理，你的任务是改进所提供文本的拼写、语法、清晰、简洁和整体可读性，" + 
                         r"同时分解长句，减少重复，并提供改进建议。请只提供文本的更正版本，避免包括解释。请编辑以下文本" + "\n\n",
             "Suffix":   r"",
         },
-        "查找语法错误": {
+        "语法修正": {
             "Prefix":   r"Below is a paragraph from an academic paper. " +
                         r"Can you help me ensure that the grammar and the spelling is correct? " +
                         r"Do not try to polish the text, if no mistake is found, tell me that this paragraph is good." + 

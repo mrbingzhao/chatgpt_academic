@@ -1,8 +1,12 @@
 # API_KEY = "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" 此key无效
-API_KEY = "sk-此处填API密钥"
+API_KEY = "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"
+API_KEY = "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"
+API_KEY = "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"
+API_KEY = "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"
 API_URL = "https://api.openai.com/v1/chat/completions"
 
 # 改为True应用代理
+# USE_PROXY = True
 USE_PROXY = False
 if USE_PROXY:
 
@@ -13,7 +17,9 @@ if USE_PROXY:
     # [端口] 在代理软件的设置里，不同的代理软件界面不一样，但端口号都应该在最显眼的位置上
 
     # 代理网络的地址，打开你的科学上网软件查看代理的协议(socks5/http)、地址(localhost)和端口(11284)
-    proxies = { "http": "socks5h://localhost:11284", "https": "socks5h://localhost:11284", }
+    # proxies = { "http": "socks5h://localhost:11284", "https": "socks5h://localhost:11284", }
+    proxies = { "http": "socks5h://localhost:33210", "https": "socks5h://localhost:33211", }
+    # proxies = {"http": "http://localhost:3213", "https": "https://localhost:3213", }
     print('网络代理状态：运行。')
 else:
     proxies = None
@@ -23,16 +29,20 @@ else:
 TIMEOUT_SECONDS = 25
 
 # 网页的端口, -1代表随机端口
-WEB_PORT = -1
+WEB_PORT = 47028
 
 # 如果OpenAI不响应（网络卡顿、代理失败、KEY失效），重试的次数限制
 MAX_RETRY = 2
 
 # 选择的OpenAI模型是（gpt4现在只对申请成功的人开放）
 LLM_MODEL = "gpt-3.5-turbo"
+# LLM_MODEL = "gpt-4"
+# LLM_MODEL = "text-davinci-002"
 
 # 设置并行使用的线程数
 CONCURRENT_COUNT = 100
 
 # 设置用户名和密码
 AUTHENTICATION = [] # [("username", "password"), ("username2", "password2"), ...]
+
+CONVERSATION_ID = "user_12345_conversation"
