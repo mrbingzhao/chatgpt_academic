@@ -1,8 +1,5 @@
 # API_KEY = "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" 此key无效
-API_KEY = "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"
-API_KEY = "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"
-API_KEY = "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"
-API_KEY = "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"
+API_KEY = "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"
 API_URL = "https://api.openai.com/v1/chat/completions"
 
 # 改为True应用代理
